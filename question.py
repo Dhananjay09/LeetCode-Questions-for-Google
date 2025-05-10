@@ -297,51 +297,29 @@ You may assume the two numbers do not contain any leading zero, except the numbe
 class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
         carry = 0
-        ans = None
-        while l1 and l2:
-            total = l1.val + l2.val + carry
-            carry = int(total / 10)
-            total = (total - carry * 10)
-            if not ans:
-                ans = ListNode(total)
-                response = ans
-            else:
-                ans.next = ListNode(total)
-                ans = ans.next
+        ans = l1
+        while(l1 and l2):
+            sm = (carry + l1.val + l2.val)
+            carry = sm // 10
+            l1.val = sm % 10
+            temp = l1
             l1 = l1.next
-            l2= l2.next
-        
-        while l1:
-            total = l1.val + carry
-            carry = int(total / 10)
-            total = (total - carry * 10)
-            if not ans:
-                ans = ListNode(total)
-                response = ans
-            else:
-                ans.next = ListNode(total)
-                ans = ans.next
-            l1 = l1.next
-        
-        while l2:
-            total = l2.val + carry
-            carry = int(total / 10)
-            total = (total - carry * 10)
-            if not ans:
-                ans = ListNode(total)
-                response = ans
-            else:
-                ans.next = ListNode(total)
-                ans = ans.next
             l2 = l2.next
-        
-        if carry > 0:
-            if not ans:
-                ans = ListNode(carry)
-                response = ans
-            else:
-                ans.next = ListNode(carry)
-        return response
+        while l1:
+            sm = (carry + l1.val)
+            carry = sm // 10
+            l1.val = sm % 10
+            temp = l1
+            l1 = l1.next
+        while l2:
+            sm = (carry + l2.val)
+            carry = sm // 10
+            temp.next = ListNode(sm % 10)
+            temp = temp.next
+            l2 = l2.next
+        if carry:
+            temp.next = ListNode(carry)
+        return ans
 '''
 Given the head of a singly linked list, group all the nodes with odd indices together followed by the nodes with even indices, and return the reordered list.
 
